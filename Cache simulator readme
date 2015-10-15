@@ -1,0 +1,69 @@
+
+Readme file for "Cache Simulator"
+2nd Project.
+
+Coded in: Python v 2.7.9
+Course name: Computer Architecture
+Course code: EE 5123
+Submitted by: S M Azharul Karim
+Student ID: dhf227
+Banner ID: @01519097
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+Cache simulator:
+Compilation:
+The cache simulator is compiled in "Python" programming language.
+Note: I have imported the "math" module in my code. It is generally provided with the python 2.7 installation package. If by any chance it is missing in your python, please download it. The code will not run without the math module.   
+steps:
+	At first, the program reads the provided trace file "example.trc" and the configuration file "example.cfg". This files must be placed in the same directory as the python code, otherwise the program will not be able to read the files.
+	After that, the values of the trace file are stored in an array called "num1". The number of traces in the trace files are defined as no of accesses. The values of the configuration file are stored in three variables: cache size, block size, and set associativity. These values are then used to calculate tag, index, block address, block offset and no. of sets. 
+	Next, a 2 dimensional array called cache is created. Dimensions of that array are: no of rows=no of sets, no of columns=set associativity. A same size matrix called count is also created to implement LRU. We also define two variables: hit and miss, to calculate the hit rate.
+	Now, we begin putting traces in the cache. At the beginning, the cache is empty. Using the index bits of the trace in our hand, we calculate the row number. Then in the row, we check if any column is empty or not. If any column in that row is empty, we put the trace in that place. For all the empty places we put traces using the same method. When we put a trace in the cache, we make the corresponding count zero. And we increment the value of miss by one.
+For example: Let us assume we have put a value in cache[10][1], then we will make count[10][1]=0.
+	If the values in that row is not empty, which means each column in that row has some traces. Then we will check whether the trace that we have in our hand at that moment matches with any of the traces in that row. If they match, then there is a hit. We increment the value of hit by one, and initialize the corresponding count to zero, like the above example.
+	If there is a miss, we increment miss by one. We find out which column in that row has the highest count. Then we put the trace in our hand in that column. And initialize the corresponding count to zero.
+	Finally, we calculate hit rate=hit⁄(no of accesses.)
+	How LRU is implemented:
+The count variable is used to replace the trace which least recently occurred. At the beginning of the for loop, for each trace access, I have found out which positions in the cache  have non-zero values. Then, I have incremented their corresponding count values by one.
+Each time there is a hit or a value is placed in an empty slot, the corresponding count variable is set to zero. When there is a miss for a trace access, I have found out which position in that row has the maximum count value. The slot with the highest count will be replaced. And after replacing, that count value is set to zero. This is how LRU is implemented in the code.
+Running instruction:
+	Modify the trace file and the configuration file as you like, and save it in the same directory as the code. Please do not leave any empty lines in the trace or config file, and write the trace and the configuration file as they were provided to us initially. Otherwise, there will be errors.
+	Open the .py file in python editor. Run the code by clicking the Run button at the top, or by pressing F5 on keyboard.
+	Depending on the no of the trace inputs, cache configuration, and the processing power of the PC that you are using, the code will take some time to execute. Please be patient if it is taking too long, and give it a few minutes.
+	Finally, the code will print out the desired outputs: 
+• The cache configuration (e.g. number of sets, tag length, index length, offset length, etc.).
+• Number of addresses accessed. 
+• Number of hits.
+• Number of misses. 
+• The cache hit rate, i.e. hits/accesses.
+Sample results:
+1. For the provided trace file (length=699521) and the provided configuration file (Cache size=32768, block size=64, associativity=4), the outputs are as follows-
+tag length= 19
+index length= 7
+offset length= 6
+no of address accessed= 695521
+no of hits= 603785
+no of misses= 91736
+cache hit rate= 0.868104629479
+2. For the provided trace file (length=699521) and the modified configuration file (Cache size= 131072, block size=64, associativity=4), the outputs are as follows-
+tag length= 17
+index length= 9
+offset length= 6
+no of address accessed= 695521
+no of hits= 606555
+no of misses= 88966
+cache hit rate= 0.872087255453
+So, we can see that, by increasing cache size for the same trace file, hit rate increases.
